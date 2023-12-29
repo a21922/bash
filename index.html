@@ -2,59 +2,43 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>File Links</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-        }
-        h1 {
-            text-align: center;
-        }
-        ul {
-            list-style: none;
-            padding: 0;
-            text-align: center;
-        }
-        li {
-            margin: 10px 0;
-        }
-        a {
-            text-decoration: none;
-            color: #007BFF;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <title>GitHub File Viewer</title>
 </head>
 <body>
-    <h1>Files Hosted on GitHub</h1>
+    <h1>Files in Root Directory</h1>
+
     <ul id="file-list">
-        <!-- File links will appear here -->
+        <!-- File list will appear here -->
     </ul>
 
     <script>
-        // Replace 'username' and 'repository' with your GitHub username and repository name
-        const baseUrl = 'https://raw.githubusercontent.com/a21922/bash/main/'; // Replace 'main' with your branch name if necessary
+        const username = 'a21922'; // Replace with your GitHub username
+        const repo = 'bash'; // Replace with your GitHub repository name
+        const baseUrl = `https://api.github.com/repos/${username}/${repo}/contents/`;
 
-        const files = [
-            // Add direct links to your hosted files here
-            's',
-            's',
-            // Add more files as needed
-        ];
+        function getFiles() {
+            fetch(baseUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const fileList = document.getElementById('file-list');
+                    data.forEach(item => {
+                        if (item.type === 'file') {
+                            const listItem = document.createElement('li');
+                            const link = document.createElement('a');
+                            link.href = item.download_url;
+                            link.textContent = item.name;
+                            link.setAttribute('target', '_blank');
+                            link.setAttribute('rel', 'noopener noreferrer');
+                            listItem.appendChild(link);
+                            listItem.appendChild(document.createElement('br'));
+                            fileList.appendChild(listItem);
+                        }
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
 
-        const fileList = document.getElementById('file-list');
-
-        files.forEach(file => {
-            const listItem = document.createElement('li');
-            const link = document.createElement('a');
-            link.href = baseUrl + file;
-            link.textContent = file;
-            listItem.appendChild(link);
-            fileList.appendChild(listItem);
-        });
+        getFiles();
     </script>
 </body>
 </html>
