@@ -2,18 +2,59 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ToDo List</title>
+    <title>File Links</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+        h1 {
+            text-align: center;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            text-align: center;
+        }
+        li {
+            margin: 10px 0;
+        }
+        a {
+            text-decoration: none;
+            color: #007BFF;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h1>My ToDo List</h1>
-    
-    <ul id="todo-list">
-        <!-- Here goes the list items -->
+    <h1>Files Hosted on GitHub</h1>
+    <ul id="file-list">
+        <!-- File links will appear here -->
     </ul>
 
-    <input type="text" id="new-item" placeholder="Add a new item">
-    <button onclick="addItem()">Add</button>
+    <script>
+        // Replace 'username' and 'repository' with your GitHub username and repository name
+        const baseUrl = 'https://raw.githubusercontent.com/a21922/bash/main/'; // Replace 'main' with your branch name if necessary
 
-    <script src="script.js"></script>
+        const files = [
+            // Add direct links to your hosted files here
+            'file1.txt',
+            'folder/file2.pdf',
+            // Add more files as needed
+        ];
+
+        const fileList = document.getElementById('file-list');
+
+        files.forEach(file => {
+            const listItem = document.createElement('li');
+            const link = document.createElement('a');
+            link.href = baseUrl + file;
+            link.textContent = file;
+            listItem.appendChild(link);
+            fileList.appendChild(listItem);
+        });
+    </script>
 </body>
 </html>
